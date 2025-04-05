@@ -1,10 +1,25 @@
 <html>
 	<head>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 		<style>
 			h1 {
 				text-align: center;
+				color: #00B4FF;
+			}
+
+			h2 {
+				color: #00B4FF;
+			}
+
+			h3 {
+				color: #00B4FF;
+			}
+
+			a {
+				color: #00B4FF;
 			}
 
 			.container {
@@ -21,89 +36,99 @@
 			}
 
 			body {
-				font-family: 'Inter', sans-serif;
+				font-family: 'Open Sans', serif;
+				background-color: #15171e;
+				color: white;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 4 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<h2>Non-photorealistic Shader in Minecraft</h2>
+		<div style="text-align: center;">Zaychik Liu, Candice Yang, Annika Liu, Andy Zhang</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: <a href="https://superkleta1.github.io/cs184-finalproj-web/">superkleta1.github.io/cs184-finalproj-web/</a>
 
-		<br>
+		<h2>Summary</h2>
+		In our project, we aim to create some non-photorealistic shaders in 
+		Minecraft, using Minecraft’s 
+		given rendering pipeline. Some shader effects we want to try creating are cel-shading, 
+		painterly-shading, and watercolor-shading. 
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		<h2>Problem Description</h2>
+		Minecraft is a sandbox game with ample support for user-generated content and 
+		customization. In particular, it supports user-created shaders 
+		and provides a well-structured rendering pipeline allowing for 
+		flexible integration. We would like to apply what we learned from 
+		CS184’s raytracing, shading, and illumination module to create 
+		a few non-photorealistic shaders in Minecraft. Some technical 
+		challenges are how to represent non-photorealistic art styles 
+		using math and codes. 
+
+		<h2>Goals and Deliverables</h2>
+		<h3>What We Plan to Deliver</h3>
+		At the basis, we would like to complete a cel-shading shader for Minecraft. 
+		After the shader is applied, we expect the game to look cartoonish, 
+		with close-to-none smooth shadows, strong color contrast, and thick 
+		outlines. We hope to achieve an effect similar to this. The result 
+		of our system can be easily measured by a comparison of the in-game 
+		effects between vanilla shader and our shader. 
 
 		<figure>
-			<img src="clothsim.png" alt="Cloth draped over sphere" style="width:70%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<img src="images/ref_celShader.png" style="width:70%"/>
+			<figcaption>cel shader example in minecraft</figcaption>
 		</figure>
 
-		<!--
-		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
-		-->
+		<h3>What We Hope to Deliver</h3>
+		Besides implementing a cel-shader, we also hope to implement a painterly-shader 
+		and a water-color shader. We hope to achieve effects similar to the 
+		following. Whether we get to implement these depends on the progress 
+		on our cel-shader and time available. 
 
-		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
-
-		<h2>Part 1: Masses and springs</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/ref_PainterlyShader.jpg" width="400px"/>
+				  <figcaption>painterly shader example</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="images/ref_PainterlyShader1.jpg" width="400px"/>
+				  <figcaption>painterly shader example</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="clothsim.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
+					<img src="images/ref_WaterColorShader.png" width="400px"/>
+					<figcaption>watercolor shader example</figcaption>
+				  </td>
 			  </tr>
 			</table>
 		</div>
 
-		<h2>Part 2: Simulation via numerical integration</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<h2>Schedule</h2>
+		<p>Week 1 - Learn Minecraft rendering pipeline, practice using OpenGL to write Minecraft custom shaders</p>
+		<p>Week 2 - Start implementation of cel-shading</p>
+		<p>Week 3 - Finish implementing cel-shading</p>
+		<p>Week 4 - Implement painterly-shader and water-color shader</p>
 
-		<h2>Part 3: Handling collisions with other objects</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>Part 4: Handling self-collisions</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>Part 5: Shaders</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>(Optional) Part 6: Extra Credit - Additional cloth simulation features!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		<h2>Resources</h2>
+		<a href="https://weszhuang.github.io/CS184-final-project-pnp-gang/final_report/index.html">Past CS184 project: Minecraft Shaders</a>
+		<p></p>
+		<a href="https://c-chen99.github.io/watercolorShader/final.html">Past CS184 project: Watercolor Shader</a>
+		<p></p>
+		<a href="https://ld184.github.io/CS184-Final-Project/">Past CS184 project: Custom Shaders in GenshinImpact</a>
+		<p></p>
+		<a href=" https://shaderlabs.org/wiki/Getting_Started">Minecraft Getting Started ShaderLAB</a>
+		<p></p>
+		<a href="https://github.com/saadam1n/MinecraftShaderProgramming/tree/master">OpenGL Tutorial in Minecraft</a>
+		<p></p>
+		<a href="https://pastebin.com/aB5MJ7aN">Optifine Pipeline Guide</a>
+		<p></p>
+		<a href="https://github.com/shaderLABS/Base-330">Minecraft Shader Base Code</a>
+		<p></p>
+		<a href="https://link.springer.com/article/10.1007/s11390-006-0159-9">Real-Time Watercolor for Animation</a>
 		</div>
 	</body>
 </html>
