@@ -45,13 +45,18 @@
 	</head>
 	<body>
 		<div class="container">
-		<h1>CS184/284A Spring 2025 Homework 4 Write-Up</h1>
+		<h1>CS184/284A Spring 2025 Final Project</h1>
 		<h2>Non-photorealistic Shader in Minecraft</h2>
 		<div style="text-align: center;">Zaychik Liu, Candice Yang, Annika Liu, Andy Zhang</div>
 
 		<br>
 
 		Link to webpage: <a href="https://superkleta1.github.io/cs184-finalproj-web/">superkleta1.github.io/cs184-finalproj-web/</a>
+		<p></p>
+		Link to video: <a href="https://drive.google.com/file/d/1bO8FUXeyCLnZkOvYolY6eBwSK8BT-Vj4/view?usp=sharing">https://drive.google.com/file/d/1bO8FUXeyCLnZkOvYolY6eBwSK8BT-Vj4/view?usp=sharing</a>
+		
+		<p></p>
+		Link to slides: <a href="https://docs.google.com/presentation/d/16LFSGw2wxK1g4hAzthjyJ5oLJL2vJxqEwCAL_FQLj1M/edit?usp=sharing">https://docs.google.com/presentation/d/16LFSGw2wxK1g4hAzthjyJ5oLJL2vJxqEwCAL_FQLj1M/edit?usp=sharing/</a>
 
 		<h2>Summary</h2>
 		In our project, we aim to create some non-photorealistic shaders in 
@@ -69,67 +74,22 @@
 		challenges are how to represent non-photorealistic art styles 
 		using math and codes. 
 
-		<h2>Goals and Deliverables</h2>
-		<h3>What We Plan to Deliver</h3>
-		At the basis, we would like to complete a cel-shading shader for Minecraft. 
-		After the shader is applied, we expect the game to look cartoonish, 
-		with close-to-none smooth shadows, strong color contrast, and thick 
-		outlines. We hope to achieve an effect similar to this. The result 
-		of our system can be easily measured by a comparison of the in-game 
-		effects between vanilla shader and our shader. 
+		<h2>Progress</h2>
+		Currently, we already went over the necessary research papers and started 
+		trying out different effects in Minecraft. We figured out how to write shader 
+		packs for Minecraft using Iris + Sodium + Optifine. We also closely followed 
+		the research paper explaining real-time watercolor rendering. Some problems 
+		that we are working to resolve now is how to segment 'meshes' in Minecraft and 
+		create intensity images. Different from other engines with pre-built definition 
+		of meshes, Minecraft only have definitions for different blocks. We want nearby 
+		blocks of same type to appear as a single mesh, improving the water-color smudging 
+		effect. Given this technical difficulty, it is likely that we would have to adjust 
+		our plans for the two extra shader effects. 
 
 		<figure>
-			<img src="images/ref_celShader.png" style="width:70%"/>
-			<figcaption>cel shader example in minecraft</figcaption>
+			<img src="images/curr_progress.png" style="width:70%"/>
+			<figcaption>current experiment results</figcaption>
 		</figure>
 
-		<h3>What We Hope to Deliver</h3>
-		Besides implementing a cel-shader, we also hope to implement a painterly-shader 
-		and a water-color shader. We hope to achieve effects similar to the 
-		following. Whether we get to implement these depends on the progress 
-		on our cel-shader and time available. 
-
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="images/ref_PainterlyShader.jpg" width="400px"/>
-				  <figcaption>painterly shader example</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="images/ref_PainterlyShader1.jpg" width="400px"/>
-				  <figcaption>painterly shader example</figcaption>
-				</td>
-				<td style="text-align: center;">
-					<img src="images/ref_WaterColorShader.png" width="400px"/>
-					<figcaption>watercolor shader example</figcaption>
-				  </td>
-			  </tr>
-			</table>
-		</div>
-
-		<h2>Schedule</h2>
-		<p>Week 1 - Learn Minecraft rendering pipeline, practice using OpenGL to write Minecraft custom shaders</p>
-		<p>Week 2 - Start implementation of cel-shading</p>
-		<p>Week 3 - Finish implementing cel-shading</p>
-		<p>Week 4 - Implement painterly-shader and water-color shader</p>
-
-		<h2>Resources</h2>
-		<a href="https://weszhuang.github.io/CS184-final-project-pnp-gang/final_report/index.html">Past CS184 project: Minecraft Shaders</a>
-		<p></p>
-		<a href="https://c-chen99.github.io/watercolorShader/final.html">Past CS184 project: Watercolor Shader</a>
-		<p></p>
-		<a href="https://ld184.github.io/CS184-Final-Project/">Past CS184 project: Custom Shaders in GenshinImpact</a>
-		<p></p>
-		<a href=" https://shaderlabs.org/wiki/Getting_Started">Minecraft Getting Started ShaderLAB</a>
-		<p></p>
-		<a href="https://github.com/saadam1n/MinecraftShaderProgramming/tree/master">OpenGL Tutorial in Minecraft</a>
-		<p></p>
-		<a href="https://pastebin.com/aB5MJ7aN">Optifine Pipeline Guide</a>
-		<p></p>
-		<a href="https://github.com/shaderLABS/Base-330">Minecraft Shader Base Code</a>
-		<p></p>
-		<a href="https://link.springer.com/article/10.1007/s11390-006-0159-9">Real-Time Watercolor for Animation</a>
-		</div>
 	</body>
 </html>
