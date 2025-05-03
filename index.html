@@ -116,7 +116,25 @@
       </ul>
 
       <h2>Abstract</h2>
-      To-do
+      Our project is a non-photorealistic watercolor rendering shader for
+      Minecraft, inspired by the real-time watercolor techniques proposed by
+      Luft and Deussen. Built using the Iris shader framework, our pipeline
+      integrates multiple layered effects to simulate the soft, fluid
+      characteristics of watercolor. We began by segmenting scene geometry using
+      Minecraft’s internal mc_Entity attribute, enabling object-aware
+      simplification. We then applied directional Gaussian blurs to remove hard
+      textures and approximate the simplified washes of color typical in
+      watercolor paintings. Intensity maps were derived from edge-aware blurs to
+      drive pigment flow and edge diffusion. To mimic traditional techniques, we
+      implemented edge darkening via alpha modulation and pigment granulation by
+      perturbing paper texture values, creating the illusion of pigment settling
+      into paper fibers. Due to Minecraft’s limitations on alpha transparency,
+      we creatively redefined the alpha channel as a blending weight between
+      scene color and paper texture. Additionally, we developed an ASCII shader
+      variant using luminance-based glyph sampling and color quantization to
+      simulate retro terminal-style visuals. Our results demonstrate a cohesive
+      fusion of real-time graphics techniques and painterly stylization within a
+      voxel-based rendering context.
 
       <h2>Technical Approach</h2>
       <h3>Watercolor shader</h3>
@@ -478,25 +496,32 @@
         center
       />
 
-	  Another issue occurs when downsampling the color. It turns out that reducing the bit depth on RGB values would distort the color (imagine r value is truncated to lower bit representation and g value is rounded to a higher one). To solve this problem, we implemented a function to convert the RGB value to HSV value, so that we can downsample the hue value separately. Below is a comparison of the original image, the images obtained  through downsampling using RGB, and using HSV. In the RGB downsampling, it is clear that some pixels in the dirt and wood turn reddish, and the entire color tone turns cooler.
-	  <br />
-	  <img
-		src="images/prob2_1.png"
-		style="display: block; margin: 20px auto; max-width: 500px"
-		center
-	  />
-	  <img
-		src="images/prob2_2.png"
-		style="display: block; margin: 20px auto; max-width: 500px"
-		center
-	  />
-	  <img
-		src="images/prob2_3.png"
-		style="display: block; margin: 20px auto; max-width: 500px"
-		center
-	  />
-
-
+      Another issue occurs when downsampling the color. It turns out that
+      reducing the bit depth on RGB values would distort the color (imagine r
+      value is truncated to lower bit representation and g value is rounded to a
+      higher one). To solve this problem, we implemented a function to convert
+      the RGB value to HSV value, so that we can downsample the hue value
+      separately. Below is a comparison of the original image, the images
+      obtained through downsampling using RGB, and using HSV. In the RGB
+      downsampling, it is clear that some pixels in the dirt and wood turn
+      reddish, and the entire color tone turns cooler.
+      <br />
+      <img
+        src="images/prob2_1.png"
+        style="display: block; margin: 20px auto; max-width: 500px"
+        center
+      />
+      <img
+        src="images/prob2_2.png"
+        style="display: block; margin: 20px auto; max-width: 500px"
+        center
+      />
+      <img
+        src="images/prob2_3.png"
+        style="display: block; margin: 20px auto; max-width: 500px"
+        center
+      />
+      <br />
       <h2>Results</h2>
 
       <div style="text-align: center">
@@ -513,8 +538,27 @@
           <p>Result 2: Watercolor Shader Demo</p>
         </div>
       </div>
+      <div style="text-align: center">
+        <img
+          src="images/res_1.png"
+          style="display: block; margin: 20px auto; max-width: 640px"
+          center
+        />
+        <img
+          src="images/res_2.png"
+          style="display: block; margin: 20px auto; max-width: 640px"
+          center
+        />
+        <p>ASCII shader pictures</p>
 
-      <h2>References</h2>
+        <img
+          src="images/comp.png"
+          style="display: block; margin: 20px auto; max-width: 640px"
+          center
+        />
+        <p>in-screen comparison of the vanilla shader and our ASCII shader</p>
+      </div>
+
       <h2>References</h2>
       <ul>
         <li>
@@ -565,7 +609,9 @@
           other functions in the shader.
         </li>
         <li>
-          <strong>Candice Yang</strong>
+          <strong>Candice Yang</strong>: Set up the full development environment
+          and build pipeline, produced and edited the project presentation
+          video, and designed / implemented the web‑based final report page.
         </li>
         <li>
           <strong>Andy Zhang</strong>: Implemented the ASCII shader starting
@@ -575,7 +621,7 @@
         </li>
         <li>
           <strong>Annika Liu</strong>: Implemented the watercolor shader from
-          scratch, learning Minecraft’s shader pipeline and Iris’ API
+          scratch, learning Minecraft's shader pipeline and Iris' API
           documentations.
         </li>
       </ul>
