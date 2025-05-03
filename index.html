@@ -102,7 +102,11 @@
 		To-do
 		
 		<h2>Technical Approach</h2>
-		To-do
+		<h3>Watercolor shader</h3>
+		To mimic the stylization of watercolor paintings, the first step of this method is to reduce visual complexity through simplification and abstraction. First, we need to segment objects so that the properties of various objects such as color and edges can be processed separately.
+
+		First, we imported the inherent attribute <code>mc_Entity</code> in Minecraft in <code>gbuffer_terrain.vsh</code> (different objects have unique IDs), and exported it to gbuffer_terrain.fsh as passedEntity, and normalized it to colortex4 to achieve the segmentation effect.
+
 
 		<h2>Results</h2>
 		
@@ -128,41 +132,7 @@
 		To-do
 
 		<br>
-		Milestone content below, to be deleted.
-
-		<!-- Milestone content below. To be deleted. -->
-		<h2>Summary</h2>
-		In our project, we aim to create some non-photorealistic shaders in 
-		Minecraft, using Minecraft's 
-		given rendering pipeline. Some shader effects we want to try creating are cel-shading, 
-		painterly-shading, and watercolor-shading. 
-
-		<h2>Problem Description</h2>
-		Minecraft is a sandbox game with ample support for user-generated content and 
-		customization. In particular, it supports user-created shaders 
-		and provides a well-structured rendering pipeline allowing for 
-		flexible integration. We would like to apply what we learned from 
-		CS184's raytracing, shading, and illumination module to create 
-		a few non-photorealistic shaders in Minecraft. Some technical 
-		challenges are how to represent non-photorealistic art styles 
-		using math and codes. 
-
-		<h2>Progress</h2>
-		Currently, we already went over the necessary research papers and started 
-		trying out different effects in Minecraft. We figured out how to write shader 
-		packs for Minecraft using Iris + Sodium + Optifine. We also closely followed 
-		the research paper explaining real-time watercolor rendering. Some problems 
-		that we are working to resolve now is how to segment 'meshes' in Minecraft and 
-		create intensity images. Different from other engines with pre-built definition 
-		of meshes, Minecraft only have definitions for different blocks. We want nearby 
-		blocks of same type to appear as a single mesh, improving the water-color smudging 
-		effect. Given this technical difficulty, it is likely that we would have to adjust 
-		our plans for the two extra shader effects. 
-
-		<figure>
-			<img src="images/curr_progress.png" style="width:70%"/>
-			<figcaption>current experiment results</figcaption>
-		</figure>
-
+		
+		</div>
 	</body>
 </html>
