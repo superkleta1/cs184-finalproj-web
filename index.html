@@ -1,95 +1,631 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-	<style>
-		h1 {
-			text-align: center;
-			color: #00B4FF;
-		}
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @font-face {
+        font-family: "Mojangles";
+        src: url("fonts/mojangles.woff") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
 
-		h2 {
-			color: #00B4FF;
-		}
+      :root {
+        --bg: #121212;
+        --ink: #f2f2f2;
+        --headline: #70b237;
+        --accent: #5ad2ff;
+        font-family: Inter, system-ui, sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+      }
 
-		h3 {
-			color: #00B4FF;
-		}
+      h1,
+      h2 {
+        font-family: "Mojangles", monospace;
+        color: var(--headline);
+      }
 
-		a {
-			color: #00B4FF;
-		}
+      h3 {
+        color: #f2f2f2ef;
+        letter-spacing: 0.02em;
+        font-size: 1em;
+        font-family: "Mojangles", sans-serif;
+      }
 
-		.container {
-			margin: 0 auto;
-			padding: 60px 20%;
-		}
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        font-family: "Mojangles", sans-serif;
+      }
+      a:hover {
+        color: #fff;
+      }
 
-		figure {
-			text-align: center;
-		}
+      .container {
+        margin: 0 auto;
+        padding: 60px 20%;
+      }
 
-		img {
-			display: inline-block;
-		}
+      figure {
+        text-align: center;
+      }
 
-		body {
-			font-family: 'Open Sans', serif;
-			background-color: #15171e;
-			color: white;
-		}
-	</style>
-	</head>
-	<body>
-		<div class="container">
-		<h1>CS184/284A Spring 2025 Final Project: Team 37</h1>
-		<h2>Non-photorealistic Shader in Minecraft</h2>
-		<div style="text-align: center;">Zaychik Liu, Candice Yang, Annika Liu, Andy Zhang</div>
+      img {
+        display: inline-block;
+      }
 
-		<br>
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--ink);
+        font-size: 16px;
+        line-height: 1.65;
+      }
 
-		Link to webpage: <a href="https://superkleta1.github.io/cs184-finalproj-web/">superkleta1.github.io/cs184-finalproj-web/</a>
-		<p></p>
-		Link to video: <a href="https://drive.google.com/file/d/1bO8FUXeyCLnZkOvYolY6eBwSK8BT-Vj4/view?usp=sharing">https://drive.google.com/file/d/1bO8FUXeyCLnZkOvYolY6eBwSK8BT-Vj4/view?usp=sharing</a>
-		
-		<p></p>
-		Link to slides: <a href="https://docs.google.com/presentation/d/16LFSGw2wxK1g4hAzthjyJ5oLJL2vJxqEwCAL_FQLj1M/edit?usp=sharing">https://docs.google.com/presentation/d/16LFSGw2wxK1g4hAzthjyJ5oLJL2vJxqEwCAL_FQLj1M/edit?usp=sharing/</a>
+      .container {
+        max-width: 75ch;
+        margin-inline: auto;
+        padding-inline: 1.5rem;
+      }
+      section {
+        margin-block: 3rem 4rem;
+      }
 
-		<h2>Summary</h2>
-		In our project, we aim to create some non-photorealistic shaders in 
-		Minecraft, using Minecraft’s 
-		given rendering pipeline. Some shader effects we want to try creating are cel-shading, 
-		painterly-shading, and watercolor-shading. 
+      .divider {
+        height: 4px;
+        background: repeating-linear-gradient(
+          90deg,
+          var(--headline) 0 4px,
+          transparent 4px 8px
+        );
+        margin-block: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div style="text-align: center">
+        <h1>
+          CS184/284A Spring 2025 <br />
+          Final Project
+        </h1>
+        <h2>Non-photorealistic Shader in Minecraft</h2>
+        <h3>Team 37: Zaychik Liu, Candice Yang, Annika Liu, Andy Zhang</h3>
+      </div>
 
-		<h2>Problem Description</h2>
-		Minecraft is a sandbox game with ample support for user-generated content and 
-		customization. In particular, it supports user-created shaders 
-		and provides a well-structured rendering pipeline allowing for 
-		flexible integration. We would like to apply what we learned from 
-		CS184’s raytracing, shading, and illumination module to create 
-		a few non-photorealistic shaders in Minecraft. Some technical 
-		challenges are how to represent non-photorealistic art styles 
-		using math and codes. 
+      <div class="divider" aria-hidden="true"></div>
+      <h2>Links</h2>
+      <ul>
+        <li>
+          <a href="https://superkleta1.github.io/cs184-finalproj-web/"
+            >Project webpage</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://drive.google.com/file/d/1MOFHxPl7zyWPmOpWrT6f-gJ5u5va-Wqe/view?usp=sharing"
+            >Project video</a
+          >
+        </li>
+      </ul>
 
-		<h2>Progress</h2>
-		Currently, we already went over the necessary research papers and started 
-		trying out different effects in Minecraft. We figured out how to write shader 
-		packs for Minecraft using Iris + Sodium + Optifine. We also closely followed 
-		the research paper explaining real-time watercolor rendering. Some problems 
-		that we are working to resolve now is how to segment 'meshes' in Minecraft and 
-		create intensity images. Different from other engines with pre-built definition 
-		of meshes, Minecraft only have definitions for different blocks. We want nearby 
-		blocks of same type to appear as a single mesh, improving the water-color smudging 
-		effect. Given this technical difficulty, it is likely that we would have to adjust 
-		our plans for the two extra shader effects. 
+      <h2>Abstract</h2>
+      Our project is a non-photorealistic watercolor rendering shader for
+      Minecraft, inspired by the real-time watercolor techniques proposed by
+      Luft and Deussen. Built using the Iris shader framework, our pipeline
+      integrates multiple layered effects to simulate the soft, fluid
+      characteristics of watercolor. We began by segmenting scene geometry using
+      Minecraft’s internal mc_Entity attribute, enabling object-aware
+      simplification. We then applied directional Gaussian blurs to remove hard
+      textures and approximate the simplified washes of color typical in
+      watercolor paintings. Intensity maps were derived from edge-aware blurs to
+      drive pigment flow and edge diffusion. To mimic traditional techniques, we
+      implemented edge darkening via alpha modulation and pigment granulation by
+      perturbing paper texture values, creating the illusion of pigment settling
+      into paper fibers. Due to Minecraft’s limitations on alpha transparency,
+      we creatively redefined the alpha channel as a blending weight between
+      scene color and paper texture. Additionally, we developed an ASCII shader
+      variant using luminance-based glyph sampling and color quantization to
+      simulate retro terminal-style visuals. Our results demonstrate a cohesive
+      fusion of real-time graphics techniques and painterly stylization within a
+      voxel-based rendering context.
 
-		<figure>
-			<img src="images/curr_progress.png" style="width:70%"/>
-			<figcaption>current experiment results</figcaption>
-		</figure>
+      <h2>Technical Approach</h2>
+      <h3>Watercolor shader</h3>
+      <b>Simplification and abstraction</b>
+      <br />
+      To mimic the stylization of watercolor paintings, the first step of this
+      method is to reduce visual complexity through simplification and
+      abstraction.
+      <br />
+      First, we need to segment objects so that the properties of various
+      objects such as color and edges can be processed separately. First, we
+      imported the inherent attribute <code>mc_Entity</code> in Minecraft in
+      <code>gbuffer_terrain.vsh</code> (different objects have unique IDs), and
+      exported it to <code>gbuffer_terrain.fsh</code> as passedEntity, and
+      normalized it to colortex4 to achieve the segmentation effect. <br />
+      <div style="display: flex; justify-content: center; gap: 20px">
+        <img
+          src="images/simplification_1.png"
+          alt="Edge Darkening Illustration"
+          style="max-width: 200px; width: 100%; height: auto"
+        />
+        <img
+          src="images/simpli_2.png"
+          alt="Edge Darkening Illustration"
+          style="max-width: 300px; width: 100%; height: auto"
+        />
+      </div>
 
-	</body>
+      After segmentation, we then get the base color of the object in
+      <code>composite.fsh</code>, output it into colortex0. Next we applied a
+      Gaussian convolution kernel to remove sharp textures and details, leaving
+      only the basic color areas that define the scene, in order to imitate the
+      blur of watercolor; it is worth mentioning that we did not use two layers
+      of nested loops, instead, we blurred the X and Y directions separately,
+      and output them to colortex5 and colortex6 respectively. They are mainly
+      achieved in composite1.* and composite2.*.
+
+      <br />
+      <img
+        src="images/simpli_3.png"
+        alt="Edge Darkening Illustration"
+        style="display: block; margin: 20px auto; max-width: 400px"
+        center
+      />
+      At the same time, after Gaussian blurring, we can use the edge strength to
+      get the intensity variable, which specifically reflects the distance from
+      a point to the edge, which is convenient for us to mix colors and further
+      process them later. This is very different from the order in the paper
+      where intensity is obtained first and then Gaussian blur is performed.
+      This is because it is too troublesome to calculate the center of each
+      continuous surface in Minecraft, and we have achieved an efficient
+      replacement in this way.
+
+      <br />
+      Such simplified abstraction is similar to the wash-like blocks of color in
+      traditional watercolor paintings. This abstraction reflects how human
+      artists reduce the sense of reality in pursuit of clarity of expression.
+      <br />
+      <br />
+
+      <b>Shape Exaction and Flow Pattern</b>
+      <br />
+      After obtaining the intensity and edge intensity, we can process the edges
+      and feather the image (flow mode). We first processed colortex5 and
+      colortex6, that is, the edge intensity in the horizontal and vertical
+      directions, defined ktheta, and used this coefficient to perform weighted
+      fusion of colortex5 and colortex6 in composite3.* and output it to
+      colortex7. The specific formula is as follows:
+
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mrow>
+          <mi>&rho;</mi>
+          <mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>=</mo>
+          <mi>&rho;</mi>
+          <mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>+</mo>
+          <mi>T</mi>
+          <mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>&#x22C5;</mo>
+          <msub><mi>&kappa;</mi><mi>&theta;</mi></msub>
+        </mrow>
+      </math>
+
+      <br />
+      We first defined kp, ks. Unlike the fusion of transparency in the paper,
+      due to the characteristics of Minecraft, only special objects such as
+      fluids and glass can modify the transparency, and other objects will be
+      reset to 1 by the system even if the transparency is explicitly modified.
+      Therefore, we directly use the derivative alpha of intensity as the
+      weighting coefficient to directly fuse the object texture color and the
+      paper texture color. In this way, we can smoothly blur and expand the
+      boundary to achieve the effect of water diffusion. The specific formula is
+      as follows:
+
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mrow>
+          <msub><mi>&lambda;</mi><mi>a</mi></msub>
+          <mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>=</mo>
+          <msub><mi>c</mi><mi>a</mi></msub>
+          <mo>&#x00B7;</mo>
+          <mi>&Delta;step</mi>
+          <mo>(</mo>
+          <mrow>
+            <msub><mi>&kappa;</mi><mi>&rho;</mi></msub>
+            <mo>&minus;</mo>
+            <msub><mi>&kappa;</mi><mi>&delta;</mi></msub>
+          </mrow>
+          <mo>,</mo>
+          <mrow>
+            <msub><mi>&kappa;</mi><mi>&rho;</mi></msub>
+            <mo>&#x002B;</mo>
+            <msub><mi>&kappa;</mi><mi>&delta;</mi></msub>
+          </mrow>
+          <mo>,</mo>
+          <mi>&rho;</mi><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>)</mo>
+        </mrow>
+      </math>
+      <br />
+      <br />
+
+      <img
+        src="images/shape_exaction.png"
+        alt="Edge Darkening Illustration"
+        style="display: block; margin: 20px auto; max-width: 200px"
+        center
+      />
+
+      <b> Edge Darkening</b>
+      <br />
+
+      Edge darkening mimics the effect of traditional watercolor painting, where
+      pigment gathers along the borders of the painted area. This is essential
+      for emphasizing structural lines and shapes. The technique involves
+      applying a dark semi-transparent layer along the detected edges to
+      simulate the capillary effect, where wet pigment gathers at the edge of
+      the wet area and becomes darker when it dries. By carefully controlling
+      the density and transparency of these overlays, the system enhances edge
+      contrast while retaining the soft beauty of water-based media. To achieve
+      this, we define kw to further weight alpha to ensure that the color of the
+      edges is darker. The specific formula is as follows, which is also
+      implemented in final.fsh:
+
+      <math xmlns="http://www.w3.org/1998/Math/MathML" ,>
+        <mrow>
+          <msub><mi>&lambda;</mi><mi>a</mi></msub>
+          <mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>=</mo>
+          <msub><mi>&lambda;</mi><mi>a</mi></msub>
+          <mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>&#x22C5;</mo>
+          <mo>(</mo>
+          <mn>1</mn>
+          <mo>+</mo>
+          <msub><mi>&kappa;</mi><mi>&omega;</mi></msub>
+          <mo>&#x22C5;</mo>
+          <mo>(</mo>
+          <mn>1</mn>
+          <mo>&#x2212;</mo>
+          <mi>&rho;</mi>
+          <mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>)</mo>
+          <mo>)</mo>
+        </mrow>
+      </math>
+
+      <img
+        src="images/edge_darkening.png"
+        alt="Edge Darkening Illustration"
+        style="display: block; margin: 20px auto; max-width: 200px"
+      />
+
+      <b> Pigment Granulation</b>
+      <br />
+      The pigment particles simulate the uneven deposition and distribution of
+      watercolor paint in the paper texture. In real watercolor paintings,
+      heavier pigment particles tend to settle in the depressions on the paper
+      surface, creating a mottled granular feel. To achieve this, in final.fsh,
+      we first obtain the color of the paper texture, paperRGB, and assign it to
+      t. Next, we transform the value range of t and map it to [-1,1] to
+      simulate the depression of the paper. Next, we define kt to weight alpha
+      and participate in the final color mixing. The specific formula is as
+      follows.
+      <br />
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+        <mrow>
+          <msub><mi>λ</mi><mi>a</mi></msub>
+          <mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>=</mo>
+          <msub><mi>λ</mi><mi>a</mi></msub>
+          <mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>+</mo>
+          <mi>T</mi><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+          <mo>&#x22C5;</mo>
+          <msub><mi>κ</mi><mi>τ</mi></msub>
+        </mrow>
+      </math>
+      <br />
+      <b>Composition</b><br />
+      In composition, we have designed a variety of modes for players to choose
+      from. Here we only explain the most classic color mixing mode. In the
+      above steps, we simulated the transparency alpha, and processed the
+      original image step by step using operations such as Gaussian blur and
+      edge enhancement to obtain C_rgb in the paper. Then, we extracted the
+      texture of the paper as the background B_rgb. After that, we can use the
+      following formula for weighting as the final output:
+
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+        <mrow>
+          <msub><mi>R</mi><mi>rgb</mi></msub>
+          <mo>=</mo>
+          <msub><mi>C</mi><mi>a</mi></msub>
+          <mo>&#x22C5;</mo>
+          <msub><mi>C</mi><mi>rgb</mi></msub>
+          <mo>+</mo>
+          <mo>(</mo>
+          <mn>1</mn>
+          <mo>&#x2212;</mo>
+          <msub><mi>C</mi><mi>a</mi></msub>
+          <mo>)</mo>
+          <mo>&#x22C5;</mo>
+          <msub><mi>B</mi><mi>rgb</mi></msub>
+        </mrow>
+      </math>
+      <br />
+
+      <img
+        src="images/composition.png"
+        alt="Edge Darkening Illustration"
+        style="display: block; margin: 20px auto; max-width: 600px"
+        center
+      />
+
+      <b>Additional Function</b><br />
+      We have designed many adjustable parameters for players to adjust the
+      visual effects. For example, when the parameter PaperColor is checked as
+      available, players can adjust the final saturation and hue through the
+      built-in function adjustHueSaturation, as well as PAPER_SATURATION and
+      PAPER_HUE in the UI. This series of functions are implemented in
+      function.glsl, and we use the mutual conversion between RGB and HSV to
+      achieve this. In addition, the coefficients mentioned above, such as kp,
+      ks, etc., can all be adjusted to achieve satisfactory results.
+
+      <img
+        src="images/addfunc_1.png"
+        alt="Edge Darkening Illustration"
+        style="display: block; margin: 20px auto; max-width: 600px"
+        center
+      />
+      <img
+        src="images/addfunc_2.png"
+        alt="Edge Darkening Illustration"
+        style="display: block; margin: 20px auto; max-width: 600px"
+        center
+      />
+      <br />
+      <b>Problems encountered & workarounds</b><br />
+      The problems we encountered mainly occurred due to restrictions on the
+      Minecraft rendering pipeline. The first problem is how to tackle
+      Minecraft's divisive rendering of nearby blocks. What Minecraft does is it
+      demarcates the blocks no matter if they are the same type or not.
+      <br />
+      But to simulate a watercolor effect, we would like blocks of the same type
+      to be considered one single object, therefore sharing color, without any
+      boundaries within the intersection. What we did is we used Iris’ (a
+      Minecraft shader tool) intrinsic MC_Entity variable, processed during
+      gbuffer_* vertex shader passes. We manually assign a unique ID to a block
+      type, and pass this value (flattening them out to ensure no interpolation)
+      to the fragment shader so it knows which block the fragment belongs to. We
+      then store all this information in a colortex file, with block ID as the
+      value for each pixel.
+      <br />
+      Another problem occurs in the second stage: simplification and
+      abstraction. The paper specifies using a gaussian blur function to
+      calculate and output the intensity map for each object. We first tried
+      implementing it with a 2D gaussian blur function with a double for-loop,
+      but it is too costly given that we want a higher blur radius. We then
+      decided to utilize the inherent shader pipeline to implement two 1D
+      gaussian blur passes. We first horizontally blur for each pixel to get the
+      intensity value from all horizontal neighbors and store these in a
+      colortex. Then, in another composite pass, we vertically blur the values
+      from this colortex to get a final intensity image as desired. This ensures
+      that we optimize the runtime for real-time rendering while maintaining the
+      same result.
+      <br />
+      Lastly, and again, a problem with Minecraft's incompatibility. Minecraft
+      strictly prohibits any modification to its fragments' alpha values
+      (opacity) beside some very special block entities (such as liquid or
+      glass). With opacity being the main differentiator of a watercolor shader
+      from others, we need to find a way to work around this. We came across
+      this by using the alpha value to blend (interpolate) between the base
+      color and the paper color instead. A higher opacity (therefore higher
+      alpha value) would correspond to a lower amount of mix with the
+      background, and vice versa. Through this, we were able to achieve a
+      similar result.
+      <br />
+      <b>Lessons learned</b><br />
+      Definitely keep optimization in mind when working on real time rendering.
+      Any unoptimized or incautious algorithm could reflect in exponential
+      rendering time and thus lower FPS and lag for the user. We had to redo our
+      gaussian blur function because we didn’t keep that in mind. Also, another
+      important takeaway is to carefully check documentation and learn the
+      platform before starting. We only discovered Minecraft’s prohibition of
+      alpha channel changes when we are already half way through the pipeline.
+      Have we discovered earlier, we may come up with a work around to achieve a
+      better result.
+
+      <br />
+
+      <h3>ASCII shader</h3>
+      We create another Minecraft shader using the texture of a list of ASCII
+      characters, with uniform colors on each glyph, to accomplish a retro
+      “terminal” style shader. To achieve this, we downsampled the pixels into
+      cells to represent ASCII characters, each using a downsampled color to
+      represent the cell.
+      <br />
+      <b>Pipeline - Downsampling cells</b><br />
+      First we segment the entire screen pixels to assign each cell to a list of
+      ASCII characters. To determine which character to assign to, we sample
+      within each cell to get a representing rgb color, and take the dot product
+      with an illuminance vector that can be fine tuned. We choose the list of
+      characters ‘@%#*+=-:.‘, where ‘@’ represents cells within the highest
+      illuminance range and ‘.’ represents cells within the lowest illuminance
+      range. We used the PIL library from python to generate the glyph texture.
+      Then the texture of the character with the corresponding glyph coverage is
+      mapped to all pixels within that cell.
+      <br />
+      <b>Pipeline - Downsampling colors</b><br />
+      In order to create the effect of “terminal-style” art, we decided to
+      downsample the colors as well to simulate the incapability for an old
+      computer terminal to generate rich color. In addition to sampling the
+      representing color for each cell, we also reduce the bit depth of the
+      color for each pixel, so that limited numbers of color can be represented,
+      and all colors would be converted to the nearest representable color.
+      Lastly, the glyph texture is multiplied with the downsampled color to
+      obtain the final result.
+      <br /><br />
+
+      <b>Problems encountered & workarounds</b><br />
+      The first problem we encountered when downsampling cells is that most
+      color ends up being within the lowest illuminance range, so that the
+      screen is filled with mostly ‘.’. This not only creates the difficulty of
+      distinguishing the texture and lighting of an object (as it is filled with
+      only periods), but also makes the entire scene much dimmer than desired.
+      We decided to add a sqrt function after the dot product to elevate the
+      illuminance of pixels within the lower range. Below is a comparison of the
+      effects before and after taking the sqrt.
+      <br />
+      <img
+        src="images/prob1_bef.png"
+        style="display: block; margin: 20px auto; max-width: 500px"
+        center
+      />
+      <img
+        src="images/prob1_after.png"
+        style="display: block; margin: 20px auto; max-width: 500px"
+        center
+      />
+
+      Another issue occurs when downsampling the color. It turns out that
+      reducing the bit depth on RGB values would distort the color (imagine r
+      value is truncated to lower bit representation and g value is rounded to a
+      higher one). To solve this problem, we implemented a function to convert
+      the RGB value to HSV value, so that we can downsample the hue value
+      separately. Below is a comparison of the original image, the images
+      obtained through downsampling using RGB, and using HSV. In the RGB
+      downsampling, it is clear that some pixels in the dirt and wood turn
+      reddish, and the entire color tone turns cooler.
+      <br />
+      <img
+        src="images/prob2_1.png"
+        style="display: block; margin: 20px auto; max-width: 500px"
+        center
+      />
+      <img
+        src="images/prob2_2.png"
+        style="display: block; margin: 20px auto; max-width: 500px"
+        center
+      />
+      <img
+        src="images/prob2_3.png"
+        style="display: block; margin: 20px auto; max-width: 500px"
+        center
+      />
+      <br />
+      <h2>Results</h2>
+
+      <div style="text-align: center">
+        <div class="video-container" style="margin-bottom: 20px">
+          <video controls width="640">
+            <source src="videos/ascii_shader_result.mp4" type="video/mp4" />
+          </video>
+          <p>Result 1: ASCII Shader Demo</p>
+        </div>
+        <div class="video-container">
+          <video controls width="640">
+            <source src="videos/watercolorTrimmed.mp4" type="video/mp4" />
+          </video>
+          <p>Result 2: Watercolor Shader Demo</p>
+        </div>
+      </div>
+      <div style="text-align: center">
+        <img
+          src="images/res_1.png"
+          style="display: block; margin: 20px auto; max-width: 640px"
+          center
+        />
+        <img
+          src="images/res_2.png"
+          style="display: block; margin: 20px auto; max-width: 640px"
+          center
+        />
+        <p>ASCII shader pictures</p>
+
+        <img
+          src="images/comp.png"
+          style="display: block; margin: 20px auto; max-width: 640px"
+          center
+        />
+        <p>in-screen comparison of the vanilla shader and our ASCII shader</p>
+      </div>
+
+      <h2>References</h2>
+      <ul>
+        <li>
+          <a
+            href="https://shaders.properties/current/guides/your-first-shader/0_intro/"
+            >Intro to Iris shaders</a
+          >
+        </li>
+        <li>
+          <a href="https://www.youtube.com/watch?v=OLXdh8AWHS4"
+            >ASCII in Minecraft</a
+          >
+        </li>
+        <li>
+          <a href="https://c-chen99.github.io/watercolorShader/final.html"
+            >Past CS184 project: Watercolor Shader</a
+          >
+        </li>
+        <li>
+          <a href="https://link.springer.com/article/10.1007/s11390-006-0159-9"
+            >Real-Time Watercolor for Animation</a
+          >
+        </li>
+        <li>
+          <a href="https://github.com/tonsky/FiraCode"
+            >FiraCode – a monospaced font</a
+          >
+        </li>
+        <li>
+          <a href="https://mattlockyer.github.io/iat455/documents/rgb-hsv.pdf"
+            >RGB to HSV algorithm</a
+          >
+        </li>
+        <li>
+          <a href="https://www.curseforge.com/minecraft/shaders/ink-shader"
+            >Ink shader</a
+          >
+        </li>
+      </ul>
+
+      <h2>Contributions</h2>
+      <ul>
+        <li>
+          <strong>Zaychik Liu</strong>: Researched and evaluated available
+          Minecraft shader tools, set up an intro-to-Minecraft-shader document
+          for teammates, summarized a pipeline note and the possible
+          implementation method from the research paper, and integrated UI and
+          other functions in the shader.
+        </li>
+        <li>
+          <strong>Candice Yang</strong>: Set up the full development environment
+          and build pipeline, produced and edited the project presentation
+          video, and designed / implemented the web‑based final report page.
+        </li>
+        <li>
+          <strong>Andy Zhang</strong>: Implemented the ASCII shader starting
+          from a starter Minecraft shader that produces the vanilla shading
+          effect and fine-tuned the functions and parameters used in the ASCII
+          shader.
+        </li>
+        <li>
+          <strong>Annika Liu</strong>: Implemented the watercolor shader from
+          scratch, learning Minecraft's shader pipeline and Iris' API
+          documentations.
+        </li>
+      </ul>
+      <br />
+    </div>
+  </body>
 </html>
