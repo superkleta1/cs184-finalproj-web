@@ -136,12 +136,12 @@
         <img
           src="images/simplification_1.png"
           alt="Edge Darkening Illustration"
-          style="max-width: 300px; width: 100%; height: auto"
+          style="max-width: 200px; width: 100%; height: auto"
         />
         <img
           src="images/simpli_2.png"
           alt="Edge Darkening Illustration"
-          style="max-width: 400px; width: 100%; height: auto"
+          style="max-width: 300px; width: 100%; height: auto"
         />
       </div>
 
@@ -158,8 +158,8 @@
       <img
         src="images/simpli_3.png"
         alt="Edge Darkening Illustration"
-        style="display: block; margin: 20px auto; max-width: 400px;"
-		center
+        style="display: block; margin: 20px auto; max-width: 400px"
+        center
       />
       At the same time, after Gaussian blurring, we can use the edge strength to
       get the intensity variable, which specifically reflects the distance from
@@ -240,7 +240,12 @@
       <br />
       <br />
 
-      <!-- image here TODO: -->
+      <img
+        src="images/shape_exaction.png"
+        alt="Edge Darkening Illustration"
+        style="display: block; margin: 20px auto; max-width: 200px"
+        center
+      />
 
       <b> Edge Darkening</b>
       <br />
@@ -283,7 +288,7 @@
       <img
         src="images/edge_darkening.png"
         alt="Edge Darkening Illustration"
-        style="display: block; margin: 20px auto"
+        style="display: block; margin: 20px auto; max-width: 200px"
       />
 
       <b> Pigment Granulation</b>
@@ -340,7 +345,157 @@
       </math>
       <br />
 
+      <img
+        src="images/composition.png"
+        alt="Edge Darkening Illustration"
+        style="display: block; margin: 20px auto; max-width: 600px"
+        center
+      />
+
+      <b>Additional Function</b><br />
+      We have designed many adjustable parameters for players to adjust the
+      visual effects. For example, when the parameter PaperColor is checked as
+      available, players can adjust the final saturation and hue through the
+      built-in function adjustHueSaturation, as well as PAPER_SATURATION and
+      PAPER_HUE in the UI. This series of functions are implemented in
+      function.glsl, and we use the mutual conversion between RGB and HSV to
+      achieve this. In addition, the coefficients mentioned above, such as kp,
+      ks, etc., can all be adjusted to achieve satisfactory results.
+
+      <img
+        src="images/addfunc_1.png"
+        alt="Edge Darkening Illustration"
+        style="display: block; margin: 20px auto; max-width: 600px"
+        center
+      />
+      <img
+        src="images/addfunc_2.png"
+        alt="Edge Darkening Illustration"
+        style="display: block; margin: 20px auto; max-width: 600px"
+        center
+      />
       <br />
+      <b>Problems encountered & workarounds</b><br />
+      The problems we encountered mainly occurred due to restrictions on the
+      Minecraft rendering pipeline. The first problem is how to tackle
+      Minecraft's divisive rendering of nearby blocks. What Minecraft does is it
+      demarcates the blocks no matter if they are the same type or not.
+      <br />
+      But to simulate a watercolor effect, we would like blocks of the same type
+      to be considered one single object, therefore sharing color, without any
+      boundaries within the intersection. What we did is we used Iris’ (a
+      Minecraft shader tool) intrinsic MC_Entity variable, processed during
+      gbuffer_* vertex shader passes. We manually assign a unique ID to a block
+      type, and pass this value (flattening them out to ensure no interpolation)
+      to the fragment shader so it knows which block the fragment belongs to. We
+      then store all this information in a colortex file, with block ID as the
+      value for each pixel.
+      <br />
+      Another problem occurs in the second stage: simplification and
+      abstraction. The paper specifies using a gaussian blur function to
+      calculate and output the intensity map for each object. We first tried
+      implementing it with a 2D gaussian blur function with a double for-loop,
+      but it is too costly given that we want a higher blur radius. We then
+      decided to utilize the inherent shader pipeline to implement two 1D
+      gaussian blur passes. We first horizontally blur for each pixel to get the
+      intensity value from all horizontal neighbors and store these in a
+      colortex. Then, in another composite pass, we vertically blur the values
+      from this colortex to get a final intensity image as desired. This ensures
+      that we optimize the runtime for real-time rendering while maintaining the
+      same result.
+      <br />
+      Lastly, and again, a problem with Minecraft's incompatibility. Minecraft
+      strictly prohibits any modification to its fragments' alpha values
+      (opacity) beside some very special block entities (such as liquid or
+      glass). With opacity being the main differentiator of a watercolor shader
+      from others, we need to find a way to work around this. We came across
+      this by using the alpha value to blend (interpolate) between the base
+      color and the paper color instead. A higher opacity (therefore higher
+      alpha value) would correspond to a lower amount of mix with the
+      background, and vice versa. Through this, we were able to achieve a
+      similar result.
+      <br />
+      <b>Lessons learned</b><br />
+      Definitely keep optimization in mind when working on real time rendering.
+      Any unoptimized or incautious algorithm could reflect in exponential
+      rendering time and thus lower FPS and lag for the user. We had to redo our
+      gaussian blur function because we didn’t keep that in mind. Also, another
+      important takeaway is to carefully check documentation and learn the
+      platform before starting. We only discovered Minecraft’s prohibition of
+      alpha channel changes when we are already half way through the pipeline.
+      Have we discovered earlier, we may come up with a work around to achieve a
+      better result.
+
+      <br />
+
+      <h3>ASCII shader</h3>
+      We create another Minecraft shader using the texture of a list of ASCII
+      characters, with uniform colors on each glyph, to accomplish a retro
+      “terminal” style shader. To achieve this, we downsampled the pixels into
+      cells to represent ASCII characters, each using a downsampled color to
+      represent the cell.
+      <br />
+      <b>Pipeline - Downsampling cells</b><br />
+      First we segment the entire screen pixels to assign each cell to a list of
+      ASCII characters. To determine which character to assign to, we sample
+      within each cell to get a representing rgb color, and take the dot product
+      with an illuminance vector that can be fine tuned. We choose the list of
+      characters ‘@%#*+=-:.‘, where ‘@’ represents cells within the highest
+      illuminance range and ‘.’ represents cells within the lowest illuminance
+      range. We used the PIL library from python to generate the glyph texture.
+      Then the texture of the character with the corresponding glyph coverage is
+      mapped to all pixels within that cell.
+      <br />
+      <b>Pipeline - Downsampling colors</b><br />
+      In order to create the effect of “terminal-style” art, we decided to
+      downsample the colors as well to simulate the incapability for an old
+      computer terminal to generate rich color. In addition to sampling the
+      representing color for each cell, we also reduce the bit depth of the
+      color for each pixel, so that limited numbers of color can be represented,
+      and all colors would be converted to the nearest representable color.
+      Lastly, the glyph texture is multiplied with the downsampled color to
+      obtain the final result.
+      <br /><br />
+
+      <b>Problems encountered & workarounds</b><br />
+      The first problem we encountered when downsampling cells is that most
+      color ends up being within the lowest illuminance range, so that the
+      screen is filled with mostly ‘.’. This not only creates the difficulty of
+      distinguishing the texture and lighting of an object (as it is filled with
+      only periods), but also makes the entire scene much dimmer than desired.
+      We decided to add a sqrt function after the dot product to elevate the
+      illuminance of pixels within the lower range. Below is a comparison of the
+      effects before and after taking the sqrt.
+      <br />
+      <img
+        src="images/prob1_bef.png"
+        style="display: block; margin: 20px auto; max-width: 500px"
+        center
+      />
+      <img
+        src="images/prob1_after.png"
+        style="display: block; margin: 20px auto; max-width: 500px"
+        center
+      />
+
+	  Another issue occurs when downsampling the color. It turns out that reducing the bit depth on RGB values would distort the color (imagine r value is truncated to lower bit representation and g value is rounded to a higher one). To solve this problem, we implemented a function to convert the RGB value to HSV value, so that we can downsample the hue value separately. Below is a comparison of the original image, the images obtained  through downsampling using RGB, and using HSV. In the RGB downsampling, it is clear that some pixels in the dirt and wood turn reddish, and the entire color tone turns cooler.
+	  <br />
+	  <img
+		src="images/prob2_1.png"
+		style="display: block; margin: 20px auto; max-width: 500px"
+		center
+	  />
+	  <img
+		src="images/prob2_2.png"
+		style="display: block; margin: 20px auto; max-width: 500px"
+		center
+	  />
+	  <img
+		src="images/prob2_3.png"
+		style="display: block; margin: 20px auto; max-width: 500px"
+		center
+	  />
+
 
       <h2>Results</h2>
 
